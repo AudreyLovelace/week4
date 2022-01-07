@@ -127,9 +127,13 @@ export default function Weather() {
         </footer>
       </div>
       <p>
-        <a href="/">Open-source code</a>, by <a href="/">Audrey Lovelace</a>{" "}
+        <a href="https://github.com/AudreyLovelace/week4">Open-source code</a>,
+        by{" "}
+        <a href="https://www.facebook.com/profile.php?id=100055656144920">
+          Audrey Lovelace
+        </a>
         from
-        <a href="/"> SheCodes</a>
+        <a href="https://www.shecodes.io/"> SheCodes</a>
       </p>
     </div>
   );
