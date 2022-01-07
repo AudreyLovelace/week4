@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import NewTime from "./NewTime";
 
-export default function Weather() {
+export default function Weather(props) {
   let apiKey = "eb0a1d7541da4e9c4f957db698ea2ffe";
   const [city, setCity] = useState("Charlottetown");
   const [weather, setWeather] = useState({ load: true });
@@ -15,6 +16,7 @@ export default function Weather() {
       imgsrc: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
       humidity: response.data.main.humidity,
       wind: response.data.wind.speed,
+      date: response.data.dt,
       load: false,
     });
   }
@@ -26,7 +28,7 @@ export default function Weather() {
   }
 
   function loadCity() {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=charlottetown&units=metric&appid=${apiKey}`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${props.city}&units=metric&appid=${apiKey}`;
     axios.get(url).then(showWeather);
   }
 
@@ -83,7 +85,7 @@ export default function Weather() {
         <main>
           <h2>{weather.name}</h2>
           <h3>
-            Thursday 15:38 <br /> {weather.description}
+            <NewTime time={weather.date} /> <br /> {weather.description}
           </h3>
         </main>
         <section>
