@@ -4,7 +4,7 @@ import axios from "axios";
 export default function Weather() {
   let apiKey = "eb0a1d7541da4e9c4f957db698ea2ffe";
   const [city, setCity] = useState("Charlottetown");
-  const [weather, setWeather] = useState("");
+  const [weather, setWeather] = useState({ load: true });
   function showWeather(response) {
     let tempertature = Math.round(response.data.main.temp);
 
@@ -15,11 +15,18 @@ export default function Weather() {
       imgsrc: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
       humidity: response.data.main.humidity,
       wind: response.data.wind.speed,
+      load: false,
     });
   }
 
   function changCity(event) {
+    event.preventDefault();
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${event.target.value}&units=metric&appid=${apiKey}`;
+    axios.get(url).then(showWeather);
+  }
+
+  function loadCity() {
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=charlottetown&units=metric&appid=${apiKey}`;
     axios.get(url).then(showWeather);
   }
 
@@ -32,8 +39,11 @@ export default function Weather() {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
     axios.get(url).then(showWeather);
   }
-  return (
-    <div id="container">
+  if (weather.load) {
+    loadCity();
+    setWeather({ load: false });
+  } else {
+    return (
       <div id="upperContainer">
         <header>
           <input
@@ -64,7 +74,7 @@ export default function Weather() {
         <form onSubmit={searchCity}>
           <input
             onChange={inputCity}
-            type="text"
+            type="search"
             placeholder="Enter a city"
           ></input>
           <input id="search" type="submit" value="Search"></input>
@@ -126,15 +136,6 @@ export default function Weather() {
           </div>
         </footer>
       </div>
-      <p>
-        <a href="https://github.com/AudreyLovelace/week4">Open-source code</a>,
-        by{" "}
-        <a href="https://www.facebook.com/profile.php?id=100055656144920">
-          Audrey Lovelace
-        </a>
-        from
-        <a href="https://www.shecodes.io/"> SheCodes</a>
-      </p>
-    </div>
-  );
+    );
+  }
 }

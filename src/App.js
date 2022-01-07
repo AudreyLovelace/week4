@@ -3,8 +3,16 @@ import Weather from "./Weather";
 
 function App() {
   return (
-    <div>
+    <div id="container">
       <Weather />
+      <p>
+        <a href="https://github.com/AudreyLovelace/week4">Open-source code</a>,
+        by{" "}
+        <a href="https://www.facebook.com/profile.php?id=100055656144920">
+          Audrey Lovelace
+        </a>{" "}
+        from <a href="https://www.shecodes.io/">SheCodes</a>
+      </p>
     </div>
   );
 }
