@@ -8,6 +8,7 @@ export default function Weather(props) {
   const [city, setCity] = useState("Charlottetown");
   const [weather, setWeather] = useState({ load: true });
   const [loading, setLoading] = useState("Current");
+  const [loading2, setLoading2] = useState("Search");
 
   function currentCity(event) {
     event.preventDefault();
@@ -36,6 +37,7 @@ export default function Weather(props) {
       load: false,
     });
     setLoading("Current");
+    setLoading2("Search");
   }
 
   function changCity(event) {
@@ -55,6 +57,7 @@ export default function Weather(props) {
 
   function searchCity(event) {
     event.preventDefault();
+    setLoading2("loading");
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
     axios.get(url).then(showWeather);
   }
@@ -97,7 +100,7 @@ export default function Weather(props) {
             type="search"
             placeholder="Enter a city"
           ></input>
-          <input id="search" type="submit" value="Search"></input>
+          <input id="search" type="submit" value={loading2}></input>
           <input
             onClick={currentCity}
             id="current"
