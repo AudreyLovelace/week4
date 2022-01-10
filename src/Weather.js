@@ -7,9 +7,11 @@ export default function Weather(props) {
   let apiKey = "eb0a1d7541da4e9c4f957db698ea2ffe";
   const [city, setCity] = useState("Charlottetown");
   const [weather, setWeather] = useState({ load: true });
+  const [loading, setLoading] = useState("Current");
 
   function currentCity(event) {
     event.preventDefault();
+    setLoading("Loading");
     navigator.geolocation.getCurrentPosition(showPosition);
   }
 
@@ -33,6 +35,7 @@ export default function Weather(props) {
       date: response.data.dt,
       load: false,
     });
+    setLoading("Current");
   }
 
   function changCity(event) {
@@ -55,6 +58,7 @@ export default function Weather(props) {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
     axios.get(url).then(showWeather);
   }
+
   if (weather.load) {
     loadCity();
     setWeather({ load: false });
@@ -98,7 +102,7 @@ export default function Weather(props) {
             onClick={currentCity}
             id="current"
             type="button"
-            value="Current"
+            value={loading}
           ></input>
         </form>
         <main>
