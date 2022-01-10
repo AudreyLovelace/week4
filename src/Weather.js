@@ -16,7 +16,7 @@ export default function Weather(props) {
   function showPosition(position) {
     let lat = position.coords.latitude;
     let lon = position.coords.longitude;
-    let url = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+    let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
     axios.get(url).then(showWeather);
   }
 
