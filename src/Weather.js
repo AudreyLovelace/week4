@@ -1,11 +1,25 @@
 import React, { useState } from "react";
 import axios from "axios";
 import NewTime from "./NewTime";
+import TempUnit from "./TempUnit";
 
 export default function Weather(props) {
   let apiKey = "eb0a1d7541da4e9c4f957db698ea2ffe";
   const [city, setCity] = useState("Charlottetown");
   const [weather, setWeather] = useState({ load: true });
+
+  function currentCity(event) {
+    event.preventDefault();
+    navigator.geolocation.getCurrentPosition(showPosition);
+  }
+
+  function showPosition(position) {
+    let lat = position.coords.latitude;
+    let lon = position.coords.longitude;
+    let url = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+    axios.get(url).then(showWeather);
+  }
+
   function showWeather(response) {
     let tempertature = Math.round(response.data.main.temp);
 
@@ -80,7 +94,12 @@ export default function Weather(props) {
             placeholder="Enter a city"
           ></input>
           <input id="search" type="submit" value="Search"></input>
-          <input id="current" type="button" value="Current"></input>
+          <input
+            onClick={currentCity}
+            id="current"
+            type="button"
+            value="Current"
+          ></input>
         </form>
         <main>
           <h2>{weather.name}</h2>
@@ -89,10 +108,9 @@ export default function Weather(props) {
           </h3>
         </main>
         <section>
-          <img src={weather.imgsrc} alt="clouds img" />
+          <img src={weather.imgsrc} alt={weather.description} />
           <h1>
-            {weather.temp}
-            <small>°C</small>
+            <TempUnit temp={weather.temp} />
           </h1>
           <h3>
             Humidity:{weather.humidity}%
