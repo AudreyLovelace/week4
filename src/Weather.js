@@ -131,9 +131,8 @@ export default function Weather(props) {
             Wind:{weather.wind}km/h
           </h3>
         </section>
-        <footer>
-          <Forcast forcastUrl={weather.forcastUrl} />
-        </footer>
+
+        <Forcast forcastUrl={weather.forcastUrl} />
       </div>
     );
   }
