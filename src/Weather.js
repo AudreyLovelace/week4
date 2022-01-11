@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import NewTime from "./NewTime";
 import TempUnit from "./TempUnit";
+import Forcast from "./Forcast";
 
 export default function Weather(props) {
-  let apiKey = "eb0a1d7541da4e9c4f957db698ea2ffe";
-  const [city, setCity] = useState("Charlottetown");
+  const apiKey = "eb0a1d7541da4e9c4f957db698ea2ffe";
+  const [city, setCity] = useState(props.city);
   const [weather, setWeather] = useState({ load: true });
   const [loading, setLoading] = useState("Current");
   const [loading2, setLoading2] = useState("Search");
@@ -25,7 +26,6 @@ export default function Weather(props) {
 
   function showWeather(response) {
     let tempertature = Math.round(response.data.main.temp);
-
     setWeather({
       name: response.data.name,
       temp: tempertature,
@@ -34,8 +34,13 @@ export default function Weather(props) {
       humidity: response.data.main.humidity,
       wind: response.data.wind.speed,
       date: response.data.dt,
+      lat: Math.round(response.data.coord.lat),
+      lon: Math.round(response.data.coord.lon),
+      forcastUrl: `https://api.openweathermap.org/data/2.5/onecall?lat=${response.data.coord.lat}&lon=${response.data.coord.lon}&units=metric&exclude=current,minutely,hourly,alerts&appid=e01fa26e562b7289409ac82529bc824e`,
+
       load: false,
     });
+
     setLoading("Current");
     setLoading2("Search");
   }
@@ -64,6 +69,7 @@ export default function Weather(props) {
 
   if (weather.load) {
     loadCity();
+
     setWeather({ load: false });
   } else {
     return (
@@ -126,41 +132,7 @@ export default function Weather(props) {
           </h3>
         </section>
         <footer>
-          <div>
-            <h4>Fri</h4>
-            <img src="" alt="weather img" />
-            <h5>
-              13° <span>10°</span>
-            </h5>
-          </div>
-          <div>
-            <h4>Fri</h4>
-            <img src="" alt="weather img" />
-            <h5>
-              13° <span>10°</span>
-            </h5>
-          </div>
-          <div>
-            <h4>Fri</h4>
-            <img src="" alt="weather img" />
-            <h5>
-              13° <span>10°</span>
-            </h5>
-          </div>
-          <div>
-            <h4>Fri</h4>
-            <img src="" alt="weather img" />
-            <h5>
-              13° <span>10°</span>
-            </h5>
-          </div>
-          <div>
-            <h4>Fri</h4>
-            <img src="" alt="weather img" />
-            <h5>
-              13° <span>10°</span>
-            </h5>
-          </div>
+          <Forcast forcastUrl={weather.forcastUrl} />
         </footer>
       </div>
     );

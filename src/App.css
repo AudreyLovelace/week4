@@ -34,11 +34,6 @@
   font-weight: bold;
 }
 
-@font-face {
-  font-family: roboto;
-  src: url(./RobotoMono-VariableFont_wght.ttf);
-}
-
 :root {
   --blue: #68b9e9;
   --darkBlue: #2c96d3;
